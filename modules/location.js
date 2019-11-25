@@ -3,6 +3,8 @@ const superagent = require('superagent');
 const client = require('./client.js');
 let cache = {};
 const location ={};
+
+//  get data from data base if it found else take from API /////
 location.getLocationData = function (city) {
     let SQL ='SELECT * FROM location WHERE search_query = $1';
     let values = [city];
@@ -16,6 +18,7 @@ location.getLocationData = function (city) {
         }
     });
 };
+// //// INSERT THE DATA FROM API TO DATABASE //////
 function cacheLocation(city , data){
     const location = new Location(data.results[0]);
     let SQL ='INSERT INTO location (search_query, formatted_query, latitude, longitude) VALUES ($1, $2, $3, $4) RETURNING *';
@@ -27,9 +30,10 @@ function cacheLocation(city , data){
         return savedLocation;
       });
   }
+//   CONSTACTOR FUNCTION OF LOCATION 
   function Location(data) {
-    this.formatted_query = data.results[0].formatted_address;
-    this.latitude = data.results[0].geometry.location.lat;
-    this.longitude = data.results[0].geometry.location.lng;
+    this.formatted_query = data.formatted_address;
+    this.latitude = data.geometry.location.lat;
+    this.longitude = data.geometry.location.lng;
   }
 module.exports=location ;
