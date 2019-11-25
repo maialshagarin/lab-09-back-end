@@ -1,8 +1,9 @@
 'use strict';
 const superagent = require('superagent');
 module.exports = getEvents;
+
 function getEvents(location) {
-    const url = 'http://api.eventful.con/json/events/search?location=${location}&data=Future';
+    const url = `http://api.eventful.con/json/events/search?location=${location}&data=Future`;
     return superagent.get(url)
     .then( data => parseEventsData( JSON.parse(data.text) ))
     .catch(err => console.error(err) );

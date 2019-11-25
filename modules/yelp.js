@@ -1,10 +1,11 @@
 'use strict';
 const superagent = require('superagent');
 module.exports = getYelp;
+
 function getYelp(location) {
-    const url = `https://api.yelp.com/v3/businesses/search?location=${loaction}`;
+    const url = `https://api.yelp.com/v3/businesses/search?location=${location}`;
     return superagent.get(url)
-    .set('Authorization', `Bearer ${process.env.YELP_API_KEY}`)
+    .set('Authorization', `Bearer ${process.env.YELP_API_KEY}`) /////// this key are here for more security //
     .then( data => parseYelpData(data.body) );
 }
 function parseYelpData(data){
